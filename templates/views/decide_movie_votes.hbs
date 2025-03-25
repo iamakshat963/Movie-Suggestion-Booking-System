@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<title>Decide Movie By Votes</title>
+
+<style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 700px;
+    }
+    .form {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .form input[type="text"] {
+      width: 100%;
+      padding: 5px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      transition: background-color 0.3s;
+    }
+
+    .form input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    .form {
+      margin-top: 0px;
+    }
+    #background-video {
+            position: fixed; 
+            right: 0;
+            bottom: 0;
+            min-width: 100%; 
+            min-height: 100%;
+            width: 100%;
+            /* height: 100%; */
+            z-index: -1000;
+            background-size: cover;
+            background-color: black;
+        }
+</style>
+</head>
+<body style="background-color: black;">
+    <video autoplay muted loop id="background-video">
+        <source src="video/animation2.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+
+<div class="form">
+    <h2>Decide Movie Through Votes</h2>
+    <form id="myform">
+        <input type="text" id="yourname" placeholder="Your Name">
+        <input type="text" id="friend1" placeholder="Friend1 Name">
+        <input type="text" id="friend2" placeholder="Friend2 Name">
+        <input type="text" id="yourmovie" placeholder="your Movie"><br>
+        <input type="text" id="friend1movie" placeholder="friend1 movie"><br>
+        <input type="text" id="friend2movie" placeholder="friend2 movie"><br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<div class="modal fade" id="resultModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Votting Results</h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody">
+        </div>
+        <div class="modal-footer">
+          <p style="font-size: smaller;">(Please Make Sure to Read Properly Before leaving)</p>
+          <a type="button" href="/home" class="btn btn-danger">Home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+    document.getElementById('myform').addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var Movie_withCategory = [{"name":"fighter","category":"action"},{"name":"deadpool3","category":"science_fiction"},{"name":"madame_web","category":"science_fiction"},{"name":"dunki","category":"comedy"},{"name":"jawan","category":"action"},{"name":"demon_slayer","category":"animation"},{"name":"blue_lock","category":"animation"}];
+        var yourname = document.getElementById('yourname').value;
+        var friend1name = document.getElementById('friend1').value;
+        var friend2name = document.getElementById('friend2').value;
+        var yourmovie = document.getElementById('yourmovie').value;
+        var friend1movie = document.getElementById('friend1movie').value;
+        var friend2movie = document.getElementById('friend2movie').value;
+        var suggestedMovies = [];
+        var c1_count=0;
+        var c2_count=0;
+        var c3_count=0;
+        b=[];
+        Movie_withCategory.forEach((a)=>{
+            b.push(a.name)
+        })
+        if(b.includes(yourmovie) && b.includes(friend1movie) && b.includes(friend2movie)){
+            if(yourmovie==friend1movie || yourmovie==friend2movie){
+                c1_count=c1_count+1;
+            }
+            else if(friend1movie==yourmovie || friend1movie==friend2movie){
+                c2_count=c2_count+1;
+            }
+            else if(friend2movie==yourmovie || friend2movie==friend1movie){
+                c3_count=c3_count+1;
+            }
+            else{
+                alert("please two of you have a common interest");
+            }
+            var final_movie=Math.max(c1_count,c2_count,c3_count);
+            if(final_movie==0){
+                return;
+            }
+            else if(final_movie==c1_count){
+                var alertMessage = yourname+"="+yourmovie+"<br>"+friend1name+"="+friend1movie+"<br>"+friend2name+"="+friend2movie+"<br><br>As per votes "+yourmovie+" won the voting so we will suggest you the same movie";
+                $('#modalBody').html(alertMessage);
+                $('#resultModal').modal('show');
+                } 
+            else if(final_movie==c2_count){
+                var alertMessage = yourname+"="+yourmovie+"<br>"+friend1name+"="+friend1movie+"<br>"+friend2name+"="+friend2movie+"<br><br>As per votes "+friend1movie+" won the voting so we will suggest you the same movie";
+                $('#modalBody').html(alertMessage);
+                $('#resultModal').modal('show');
+            }
+            else if(final_movie==c3_count){
+                var alertMessage = yourname+"="+yourmovie+"<br>"+friend1name+"="+friend1movie+"<br>"+friend2name+"="+friend2movie+"<br><br>As per votes "+friend2movie+" won the voting so we will suggest you the same movie";
+                $('#modalBody').html(alertMessage);
+                $('#resultModal').modal('show');
+            }
+        }
+        else{
+            alert("Something Went Wrong");
+        }
+
+    });
+</script>
+</body>
+</html>
+

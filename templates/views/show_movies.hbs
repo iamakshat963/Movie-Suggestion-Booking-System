@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <title>Show Movies</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <form id="myform">
+            <input type="submit" class="btn btn-primary" value="click"><br>
+        </form>    
+        <div class="modal fade" id="resultModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">List of Movie</h5>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="modalBody">hello
+                </div>
+                <div class="modal-footer">
+                  <a type="button" href="/home" class="btn btn-danger">Home</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script>
+            document.getElementById('myform').addEventListener("submit", function(event) {
+                event.preventDefault();
+                var Movie_withCategory = [{"name":"fighter","category":"action"},{"name":"deadpool3","category":"science_fiction"},{"name":"madame_web","category":"science_fiction"},{"name":"dunki","category":"comedy"},{"name":"jawan","category":"action"},{"name":"demon_slayer","category":"animation"},{"name":"blue_lock","category":"animation"}];
+                var movie=[];
+                var category=[];
+                for(var i=0;i<Movie_withCategory.length;i++){
+                    movie.push(Movie_withCategory[i].name)
+                    category.push(Movie_withCategory[i].category)
+                }
+
+                if(movie.length>0){
+                    var data=[];
+                    for(var i=0;i<movie.length;i++){
+                        data.push(movie[i]+"----"+category[i])
+                    }
+                    body=data.join('<br>')
+                    $('#modalBody').html(body);
+                    $('#resultModal').modal('show');
+                }
+            })
+          </script>
+    </body>
+</html>

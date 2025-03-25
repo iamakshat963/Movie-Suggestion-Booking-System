@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Movie</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 700px;
+    }
+    .form {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .form input[type="text"] {
+      width: 100%;
+      padding: 5px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      transition: background-color 0.3s;
+    }
+
+    .form input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    .form {
+      margin-top: 0px;
+    }
+    #background-video {
+            position: fixed; 
+            right: 0;
+            bottom: 0;
+            min-width: 100%; 
+            min-height: 100%;
+            width: 100%;
+            /* height: 100%; */
+            z-index: -1000;
+            background-size: cover;
+            background-color: black;
+        }
+</style>
+</head>
+<body>
+  <!-- <a href="home.html" class="btn btn-primary">Home</a> -->
+  <video autoplay muted loop id="background-video">
+      <source src="video/animation2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+<div class="form">
+  <h2>Book Movie</h2>
+  <form id="myform">
+      <input type="text" id="movie" placeholder="Enter Selected Movie">
+      <div style="text-align: left;margin-top: 10px;">
+        <label>Choose a Date:&nbsp;&nbsp;</label><input type="date" id="date" min="2024-04-08" max="2024-04-30">
+        <label>Choose Time:</label>&nbsp;&nbsp;
+        <select id="time">
+          <option value="10:30am">10:30am</option>
+          <option value="12:00pm">12:00pm</option>
+          <option value="2:00pm">2:00pm</option>
+          <option value="5:00pm">5:00pm</option>
+        </select><br>
+        <label>Seat Category:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <select id="SeatCategory" style="width:200px;margin-top: 10px;">
+          <option value="Silver">Silver</option>
+          <option value="Gold">Gold</option>
+          <option value="Platinum">Platinum</option>
+        </select>
+      </div>
+      <input type="text" id="totalSeats" placeholder="Total Seats">
+      <input type="submit" value="Submit">
+  </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="resultModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Movie Ticket has Been Booked Succesfully</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+      </div>
+      <div class="modal-footer">
+        <p style="font-size: smaller;">(Please Make Sure to Take a Screenshot before Closing)</p>
+        <a type="button" href="/home" class="btn btn-danger">Close</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('#myform').submit(function(event){
+      event.preventDefault(); 
+        var Movie_withCategory = [{"name":"fighter","category":"action"},{"name":"deadpool3","category":"science_fiction"},{"name":"madame_web","category":"science_fiction"},{"name":"dunki","category":"comedy"},{"name":"jawan","category":"action"},{"name":"demon_slayer","category":"animation"},{"name":"blue_lock","category":"animation"}];
+        var movie=document.getElementById('movie').value;
+      var date=document.getElementById("date").value;
+      var time=document.getElementById("time").value;
+      var seatCategory=document.getElementById("SeatCategory").value;
+      var totalSeats=parseInt(document.getElementById("totalSeats").value);
+        var b=[];
+        Movie_withCategory.forEach((a)=>{
+            b.push(a.name)
+        })
+
+        if(b.includes(movie)){
+          if(seatCategory==="Silver"){
+            var seatno=_.random(1,30);
+            var assume=seatno+totalSeats;
+             if (assume>=30){
+                 seatno=seatno-(totalSeats+1);
+            }
+          }
+          else if(seatCategory==="GOld"){
+            var seatno=_.random(1,30);
+            var assume=seatno+totalSeats;
+            if (assume>=30){
+                seatno=seatno-(totalSeats+1);
+            }
+        }
+        else{
+            var seatno=_.random(1,30);
+            var assume=seatno+totalSeats;
+            if (assume>=30){
+                seatno=seatno-(totalSeats+1);
+            }
+        }
+        var seatno1=seatno+(totalSeats-1);
+        if(seatno<10){
+            seatno=seatno.toString();
+            seatno='0'+seatno;
+        }
+        if(seatno1<10){
+            seatno1=seatno1.toString();
+            seatno1='0'+seatno1;
+        }
+        var audi=_.random(1,5);
+        var alpha=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+        _1=_.random(0,25);
+        _2=_.random(0,25);
+        _3=_.random(0,25);        
+        _4=_.random(0,25);
+        _5=_.random(0,25);
+        _6=_.random(0,25);
+        _7=_.random(0,25);
+        _8=_.random(0,25);
+        _9=_.random(0,25);
+        _10=_.random(0,25);
+        _11=_.random(0,9);
+        _12=_.random(0,9);
+        _13=_.random(0,9);
+        _14=_.random(0,9);
+        _15=_.random(0,9);
+        var barcode=alpha[_1]+_11+alpha[_2]+_12+_13+alpha[_3]+alpha[_4]+_14+alpha[_5]+_15+alpha[_6]+_12+alpha[_7]+alpha[_9]+alpha[_8];
+
+        if(totalSeats==1){
+          data=`
+          <h3 style="text-align:center">Akshat Cinema</h3>
+          <div class="row">
+          <div class="col-md-8">
+          <p>Movie: `+movie+`<br>
+          Date: `+date+` || `+time+`<br>
+          Total Seats: `+totalSeats+`<br>
+          Seat no: `+seatCategory+`:[`+seatno+`]<br>
+          <b><p style="text-align:center">Audi: `+audi+`</b></p>
+          Barcode: `+barcode+`</p></div>
+          <div class="col-md-4">
+            <img style="margin-top:20px" src="img/qrcode.png" width="100%">  
+          </div>
+          </div>`
+          ;
+        }
+        else{
+          data=`
+          <h3 style="text-align:center">Akshat Cinema</h3>
+          <div class="row">
+          <div class="col-md-8">
+          <p>Movie: `+movie+`<br>
+          Date: `+date+` || `+time+`<br>
+          Total Seats: `+totalSeats+`<br>
+          Seat no: `+seatCategory+`:[`+seatno+`-`+seatno1+`]<br>
+          <b><p style="text-align:center">Audi: `+audi+`</b></p>
+          Barcode: `+barcode+`</p></div>
+          <div class="col-md-4">
+            <img style="margin-top:20px" src="img/qrcode.png" width="100%">  
+          </div>
+          </div>`
+        }
+          $('#modalBody').html(data);
+          $('#resultModal').modal('show');
+        }
+        else{
+          alert("SomeThing Went Wrong");
+        }
+
+      
+    });
+  });
+</script>
+
+</body>
+</html>
